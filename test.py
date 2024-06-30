@@ -18,8 +18,6 @@ def scrape_sp500_holdings():
     wait = WebDriverWait(driver, 10)
     table = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'table-responsive')))
 
-
-
     table = driver.find_element(By.CLASS_NAME, 'table-responsive')
     headers = table.find_elements(By.TAG_NAME, 'th')
     header_names = [header.text for header in headers]
@@ -81,6 +79,11 @@ for m in range(0, mc_sims):
     Z = np.random.normal(size=(T, len(weights)))
     dailyReturns = meanM + np.inner(L, Z)
     portfolio_sims[:,m] = np.cumprod(np.inner(weights, dailyReturns.T)+1) * initialPortfolio
+
+mean_return_after_100_days = portfolio_sims[-1].mean()
+median_return = np.median(portfolio_sims[-1])
+print(f"Mean return after 100 days: ${mean_return_after_100_days:,.2f}")
+print(f"50th Percentile return after 100 days: ${median_return:,.2f}")
 
 plt.plot(portfolio_sims)
 plt.ylabel("Portfolio Value ($")
