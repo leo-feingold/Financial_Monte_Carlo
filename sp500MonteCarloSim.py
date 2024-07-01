@@ -57,7 +57,7 @@ startDate = endDate - dt.timedelta(days=150)
 
 meanReturns, covMatrix = get_yf_data(stockList, startDate, endDate)
 
-mc_sims = 100
+mc_sims = 1000
 T = 100
 
 epsilon = 1e-10
@@ -89,5 +89,5 @@ plt.plot(portfolio_sims)
 plt.ylabel("Portfolio Value ($")
 plt.xlabel("Days")
 plt.suptitle(f"Monte Carlo Simulation of ${initialPortfolio:,} Portfolio Tracking S&P500 Over 100 Days ({mc_sims} Simulations)")
-plt.title(f"50th Percentile return after 100 days: ${median_return:,.2f}")
+plt.title(f"50th Percentile return after 100 days: ${median_return:,.2f} or {(100*(median_return - initialPortfolio)/initialPortfolio):.3f}%")
 plt.show()
