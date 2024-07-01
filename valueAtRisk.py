@@ -13,6 +13,7 @@ def get_yf_data(stocks, start, end):
     covMatrix = returns.cov()
     return meanReturns, covMatrix
 
+historical_data = 50
 
 path = "/Users/leofeingold/Desktop/Financial_Monte_Carlo/sp500holdings.csv"
 sp500holdings = pd.read_csv(path)
@@ -23,7 +24,7 @@ sp500holdings["Portfolio%"] = sp500holdings["Portfolio%"].str.replace('%', '').a
 weights = sp500holdings["Portfolio%"].tolist()
 weights /= np.sum(weights)
 endDate = dt.datetime.now()
-startDate = endDate - dt.timedelta(days=150)
+startDate = endDate - dt.timedelta(days=historical_data)
 
 meanReturns, covMatrix = get_yf_data(stockList, startDate, endDate)
 
@@ -80,9 +81,9 @@ print(f"VaR: ${VaR:,.2f}")
 print(f"CVaR: ${CVaR:,.2f}")
 
 plt.plot(portfolio_sims)
-plt.ylabel("Portfolio Value ($")
+plt.ylabel("Portfolio Value ($)")
 plt.xlabel("Days")
-plt.suptitle(f"Monte Carlo Simulation of ${initialPortfolio:,} Portfolio Tracking S&P500 Over 100 Days ({mc_sims} Simulations)")
+plt.suptitle(f"Monte Carlo Simulation of ${initialPortfolio:,} Portfolio Tracking S&P500 Over 100 Days ({mc_sims} Simulations, Trained On Previous {historical_data} Days Of Market Data)")
 plt.title(f"50th Percentile: ${median_return:,.2f}, Value At Risk: {VaR:,.2f}, Conditional Value At Risk: {CVaR:,.2f}")
 plt.show()
 
